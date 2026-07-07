@@ -42,9 +42,50 @@ update_at_user date
 
 CREATE TABLE teaching_groups(
 id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
---user_id bigint REFERENCES users (id),
+user_id bigint REFERENCES users (id),
 slug VARCHAR(50) UNIQUE NOT NULL,
 created_at_group date,
 updated_at_group date
 );
-ALTER TABLE teaching_groups ADD COLUMN user_id bigint REFERENCES users (id);
+
+CREATE TYPE status_enrollment AS ENUM('active', 'pending', 'cancelled', 'completed');
+CREATE TABLE enrollments(
+id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+user_id bigint REFERENCES users (id),
+program_id bigint REFERENCES programs(id),
+curerent_status_enrollment status_enrollment,
+created_at_enrollment date,
+updated_at_enrollment date
+);
+
+CREATE TYPE payment_status AS ENUM('pending','paid','failed','refunded');
+CREATE TABLE payments
+(id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+enrollment_id bigint REFERENCES enrollments(id),
+payment_amount numeric(10,2),
+current_payment_status payment_status,
+payment_date date,
+created_at_payment date,
+updated_at_payment date
+);
+
+CREATE TYPE status_program_completion AS ENUM('active', 'completed', 'pending', 'cancelled');
+CREATE TABLE program_completions(
+id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+user_id bigint REFERENCES users (id),
+program_id bigint REFERENCES programs(id),
+begin_program date,
+end_program date,
+created_at date,
+updated_at date
+);
+
+CREATE TABLE certificates(
+id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+user_id bigint REFERENCES users (id),
+program_id bigint REFERENCES programs(id),
+certificat_url TEXT NOT NULL,
+issue_date date,
+created_at date,
+updated_at date
+);
