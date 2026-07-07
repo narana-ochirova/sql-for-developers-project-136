@@ -144,7 +144,7 @@ CREATE TABLE exercises (
 CREATE TABLE discussions (
     id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     lesson_id bigint REFERENCES lessons(id),
-    text JSON,
+    text JSONB,
     user_id bigint REFERENCES discussions(id) ON DELETE CASCADE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
