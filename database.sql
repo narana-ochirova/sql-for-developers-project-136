@@ -29,7 +29,6 @@ CREATE TABLE modules (
 );
 CREATE TABLE programs (
     id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    module_id bigint REFERENCES modules(id), 
     name VARCHAR(255),
     price INTEGER,
     program_type VARCHAR(255),
@@ -75,9 +74,9 @@ CREATE TABLE lessons (
 CREATE TABLE quizzes (
     id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     lesson_id bigint REFERENCES lessons(id),
-    name_quiz VARCHAR(255),
-    content_quiz TEXT,
-    parent_id bigint REFERENCES quizzes(id) ON DELETE CASCADE,
+    name VARCHAR(255),
+    content TEXT,
+    user_id bigint REFERENCES quizzes(id) ON DELETE CASCADE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -86,28 +85,26 @@ CREATE TABLE enrollments (
     id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     user_id bigint REFERENCES users(id),
     program_id bigint REFERENCES programs(id),
-    current_status_enrollment status_enrollment,
+    status_enrollment status_enrollment,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-CREATE TYPE payment_status AS ENUM('pending', 'paid', 'failed', 'refunded');
+CREATE TYPE status AS ENUM('pending', 'paid', 'failed', 'refunded');
 CREATE TABLE payments (
     id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     enrollment_id bigint REFERENCES enrollments(id),
-    payment_amount numeric(10,2),
-    current_payment_status payment_status,
-    payment_date TIMESTAMP,
+    amount numeric(10,2),
+    status status,
+    payment_at TIMESTAMP,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 CREATE TABLE program_modules (
-    id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     program_id bigint REFERENCES programs(id),
     module_id bigint REFERENCES modules(id)
 );
 
 CREATE TABLE course_modules (
-    id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     course_id bigint REFERENCES courses(id),
     module_id bigint REFERENCES modules(id)
 );
@@ -117,7 +114,9 @@ CREATE TABLE program_completions (
     id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     user_id bigint REFERENCES users(id),
     program_id bigint REFERENCES programs(id),
-    begin_program TIMESTAMP,
+	 status status_program_completion,
+	started_at TIMESTAMP, 
+    completed_at TIMESTAMP,
     end_program TIMESTAMP,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -127,8 +126,8 @@ CREATE TABLE certificates (
     id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     user_id bigint REFERENCES users(id),
     program_id bigint REFERENCES programs(id),
-    certificat_url TEXT NOT NULL,
-    issue_date TIMESTAMP,
+    url TEXT NOT NULL,
+    issued_at TIMESTAMP,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -136,8 +135,8 @@ CREATE TABLE certificates (
 CREATE TABLE exercises (
     id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     lesson_id bigint REFERENCES lessons(id),
-    name_exercise VARCHAR(255),
-    exercise_url TEXT,
+    name VARCHAR(255),
+    url TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -145,8 +144,8 @@ CREATE TABLE exercises (
 CREATE TABLE discussions (
     id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     lesson_id bigint REFERENCES lessons(id),
-    discussion TEXT,
-    parent_id bigint REFERENCES discussions(id) ON DELETE CASCADE,
+    text TEXT,
+    user_id bigint REFERENCES discussions(id) ON DELETE CASCADE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
