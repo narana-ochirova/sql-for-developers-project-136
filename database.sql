@@ -93,7 +93,7 @@ CREATE TABLE payments (
     id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     enrollment_id bigint REFERENCES enrollments(id),
     amount numeric(10,2),
-    status paiment_status,
+    status payment_status,
     paid_at TIMESTAMP,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
