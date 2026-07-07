@@ -42,8 +42,9 @@ update_at_user date
 
 CREATE TABLE teaching_groups(
 id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-user_id bigint REFERENCES users (id),
+--user_id bigint REFERENCES users (id),
 slug VARCHAR(50) UNIQUE NOT NULL,
 created_at_group date,
 updated_at_group date
 );
+ALTER TABLE teaching_groups ADD COLUMN user_id bigint REFERENCES users (id);
