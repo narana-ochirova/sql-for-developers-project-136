@@ -143,20 +143,22 @@ CREATE TABLE exercises (
 
 CREATE TABLE discussions (
     id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    lesson_id bigint REFERENCES lessons(id),
-    text JSONB NOT NULL,
-    user_id bigint REFERENCES discussions(id) ON DELETE CASCADE,
+    lesson_id bigint REFERENCES lessons(id) ON DELETE CASCADE,
+    user_id bigint REFERENCES users(id) ON DELETE CASCADE,
+    text JSONB DEFAULT '{}'::jsonb, 
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+
 CREATE TYPE title_status AS ENUM ('created', 'in moderation', 'published', 'archived');
 CREATE TABLE blogs (
     id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    user_id bigint REFERENCES users(id),
+    user_id bigint REFERENCES users(id) ON DELETE CASCADE,
     name VARCHAR(255),
-	content JSON,
+    content TEXT, 
     status title_status,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    deleted_at TIMESTAMP DEFAULT NULL
 );
