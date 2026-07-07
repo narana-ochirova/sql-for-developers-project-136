@@ -108,3 +108,22 @@ exercise_url TEXT,
 created_at date,
 updated_at date
 );
+
+CREATE TABLE discussions(
+id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+lesson_id bigint REFERENCES lessons(id),
+discussion TEXT,
+parent_id bigint REFERENCES discussions(id) ON DELETE CASCADE,
+created_at date,
+updated_at date
+);
+
+CREATE TYPE title_status AS ENUM ('created', 'in moderation', 'published', 'archived');
+CREATE TABLE blog(
+id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+student_id bigint REFERENCES users(id),
+title VARCHAR(255),
+current_title_status title_status,
+created_at date,
+updated_at date
+);
