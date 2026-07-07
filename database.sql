@@ -89,3 +89,22 @@ issue_date date,
 created_at date,
 updated_at date
 );
+
+CREATE TABLE quizzes(
+id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+lesson_id bigint REFERENCES lessons(id),
+name_quiz VARCHAR(255),
+content_quiz TEXT,
+parent_id bigint REFERENCES quizzes(id) ON DELETE CASCADE,
+created_at date,
+updated_at date
+);
+
+CREATE TABLE exercises(
+id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+lesson_id bigint REFERENCES lessons(id),
+name_exercise VARCHAR(255),
+exercise_url TEXT,
+created_at date,
+updated_at date
+);
