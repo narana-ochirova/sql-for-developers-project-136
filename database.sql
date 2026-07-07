@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS blog CASCADE;
+DROP TABLE IF EXISTS blogs CASCADE;
 DROP TABLE IF EXISTS discussions CASCADE;
 DROP TABLE IF EXISTS exercises CASCADE;
 DROP TABLE IF EXISTS certificates CASCADE;
@@ -76,7 +76,6 @@ CREATE TABLE quizzes (
     lesson_id bigint REFERENCES lessons(id),
     name VARCHAR(255),
     content TEXT,
-    user_id bigint REFERENCES quizzes(id) ON DELETE CASCADE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -85,7 +84,7 @@ CREATE TABLE enrollments (
     id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     user_id bigint REFERENCES users(id),
     program_id bigint REFERENCES programs(id),
-    status_enrollment status_enrollment,
+    status status_enrollment,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -95,7 +94,7 @@ CREATE TABLE payments (
     enrollment_id bigint REFERENCES enrollments(id),
     amount numeric(10,2),
     status status,
-    payment_at TIMESTAMP,
+    payd_at TIMESTAMP,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -114,10 +113,9 @@ CREATE TABLE program_completions (
     id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     user_id bigint REFERENCES users(id),
     program_id bigint REFERENCES programs(id),
-	 status status_program_completion,
+	status status_program_completion,
 	started_at TIMESTAMP, 
     completed_at TIMESTAMP,
-    end_program TIMESTAMP,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -151,7 +149,7 @@ CREATE TABLE discussions (
 );
 
 CREATE TYPE title_status AS ENUM ('created', 'in moderation', 'published', 'archived');
-CREATE TABLE blog (
+CREATE TABLE blogs (
     id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     student_id bigint REFERENCES users(id),
     title VARCHAR(255),
