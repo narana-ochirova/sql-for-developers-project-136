@@ -153,7 +153,7 @@ CREATE TABLE blogs (
     id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     user_id bigint REFERENCES users(id),
     name VARCHAR(255),
-	content TEXT,
+	content TEXT NOT NULL,
     status title_status,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
