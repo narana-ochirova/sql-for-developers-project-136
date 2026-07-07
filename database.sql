@@ -94,7 +94,7 @@ CREATE TABLE payments (
     enrollment_id bigint REFERENCES enrollments(id),
     amount numeric(10,2),
     status status,
-    payd_at TIMESTAMP,
+    paid_at TIMESTAMP,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -151,9 +151,9 @@ CREATE TABLE discussions (
 CREATE TYPE title_status AS ENUM ('created', 'in moderation', 'published', 'archived');
 CREATE TABLE blogs (
     id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    student_id bigint REFERENCES users(id),
-    title VARCHAR(255),
-    current_title_status title_status,
+    user_id bigint REFERENCES users(id),
+    name VARCHAR(255),
+    status title_status,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
