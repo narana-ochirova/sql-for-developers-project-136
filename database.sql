@@ -75,7 +75,7 @@ CREATE TABLE quizzes (
     id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     lesson_id bigint REFERENCES lessons(id),
     name VARCHAR(255),
-    content TEXT,
+    content  JSONB,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
