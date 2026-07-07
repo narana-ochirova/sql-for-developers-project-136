@@ -159,6 +159,5 @@ CREATE TABLE blogs (
     content TEXT, 
     status title_status,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    deleted_at TIMESTAMP DEFAULT NULL
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
