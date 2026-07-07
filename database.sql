@@ -100,12 +100,14 @@ CREATE TABLE payments (
 );
 CREATE TABLE program_modules (
     program_id bigint REFERENCES programs(id),
-    module_id bigint REFERENCES modules(id)
+    module_id bigint REFERENCES modules(id),
+	 PRIMARY KEY (program_id, module_id) 
 );
 
 CREATE TABLE course_modules (
     course_id bigint REFERENCES courses(id),
-    module_id bigint REFERENCES modules(id)
+    module_id bigint REFERENCES modules(id),
+	PRIMARY KEY (course_id, module_id)
 );
 
 CREATE TYPE status_program_completion AS ENUM('active', 'completed', 'pending', 'cancelled');
