@@ -64,7 +64,7 @@ CREATE TABLE lessons (
     id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     course_id bigint REFERENCES courses(id),
     name VARCHAR(255),
-    content TEXT,
+    content JSON,
     video_url VARCHAR(255),
     position INTEGER,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -155,7 +155,7 @@ CREATE TABLE blogs (
     id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     user_id bigint REFERENCES users(id),
     name VARCHAR(255),
-	content TEXT NOT NULL,
+	content JSON,
     status title_status,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
