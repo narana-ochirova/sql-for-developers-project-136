@@ -55,7 +55,7 @@ CREATE TABLE users (
     name VARCHAR(255),
     role VARCHAR(50),
     email VARCHAR(255) UNIQUE NOT NULL,
-    password_hash VARCHAR(255) NOT NULL,
+    password_hash VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     deleted_at TIMESTAMP DEFAULT NULL
@@ -88,12 +88,12 @@ CREATE TABLE enrollments (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-CREATE TYPE status AS ENUM('pending', 'paid', 'failed', 'refunded');
+CREATE TYPE payment_status AS ENUM('pending', 'paid', 'failed', 'refunded');
 CREATE TABLE payments (
     id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     enrollment_id bigint REFERENCES enrollments(id),
     amount numeric(10,2),
-    status status,
+    status paiment_status,
     paid_at TIMESTAMP,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -145,7 +145,7 @@ CREATE TABLE discussions (
     id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     lesson_id bigint REFERENCES lessons(id),
     text TEXT,
-    user_id bigint REFERENCES discussions(id) ON DELETE CASCADE,
+    parent_id bigint REFERENCES discussions(id) ON DELETE CASCADE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -158,5 +158,6 @@ CREATE TABLE blogs (
 	content TEXT NOT NULL,
     status title_status,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	deleted_at TIMESTAMP DEFAULT NULL
 );
